@@ -1,0 +1,69 @@
+{% load staticfiles widget_tweaks mtafiti %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NIMR | Login</title>
+    {% block css %}
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'inspinia/css/animate.css' %}" rel="stylesheet">
+        <link href="{% static 'inspinia/css/style.css' %}" rel="stylesheet">
+    {% endblock %}
+</head>
+
+<body class="gray-bg">
+
+<div class="loginColumns animated fadeInDown">
+    <div class="row">
+
+        <div class="col-md-6">
+            <h2 class="font-bold">Welcome to NIMR staff publication system</h2>
+
+            <p>
+                The database aims to facilitate tracking of published materials, enhance communication between staff, students and interns,
+                ease access of NIMR researchers work to internal staff and to other stakeholders.
+            </p>
+
+            <p>
+                The database will also promote researchers into the larger medical research community.
+            </p>
+
+        </div>
+        <div class="col-md-6">
+            <div class="ibox-content">
+                <form class="m-t" role="form" action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% render_field form.username class+='form-control' placeholder+='Username' %}
+                    </div>
+                    <div class="form-group">
+                        {% render_field form.password class+='form-control' placeholder+='Password' %}
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+
+                    <a class="btn btn-sm btn-white btn-block" href="">Login with NIMR staff mail account</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            National Institute of Medical Research
+        </div>
+        <div class="col-md-6 text-right">
+            <small>© 2016</small>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
+

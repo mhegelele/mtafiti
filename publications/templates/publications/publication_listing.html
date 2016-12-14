@@ -1,0 +1,92 @@
+{% extends 'publications/base.html' %}
+{% load staticfiles widget_tweaks mtafiti %}
+
+{% block page-actions %}
+    <div class="title-action">
+        <div class="btn-group">
+            <a href="{% url 'publications:add-publication' %}" class="btn btn-white">Add Publication</a>
+            <button class="btn btn-white"><span class="fa fa-plus"></span></button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if publications %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="project-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Journal</th>
+                                    <th>Year</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for publication in publications %}
+                                    <tr>
+                                        <td class="project-title">
+                                            <a href="{% url 'publications:publication-details' publication.pk %}">{{ publication.title }}</a>
+                                        </td>
+                                        <td class="project-completion">
+                                            {{ publication.journal }}
+                                            <br />
+                                            <small>Vol.:{{ publication.volume }}, Issue.:{{ publication.number }}</small>
+                                        </td>
+                                        <td>{{ publication.year }}</td>
+                                        <td class="project-actions">
+                                            <a href="https://dx.doi.org/{{ publication.doi }}" target="_blank" class="btn btn-white btn-sm">
+                                                View Article <i class="fa fa-external-link"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right">
+                                            {% if publications.has_previous %}
+                                                <li>
+                                                    <a href="?page={{ publications.previous_page_number }}" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+
+                                            <li>
+                                                <span class="active">Page {{ publications.number }} of {{ publications.paginator.num_pages }}</span>
+                                            </li>
+
+                                            {% if publications.has_next %}
+                                                <li>
+                                                    <a href="?page={{ publications.next_page_number }}" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="middle-box text-center">
+            <h3 class="font-bold">You have no publication!</h3>
+            <div class="text-info">
+                It seems that of all the publication in the system you haven't authored any.
+                You can add publications that you have authored by clicking the below button.
+                <br /><a href="{% url 'publications:add-publication' %}" class="btn btn-primary m-t">Add Publication</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

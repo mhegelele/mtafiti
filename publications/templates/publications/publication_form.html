@@ -1,0 +1,137 @@
+{% extends 'publications/base.html' %}
+{% load staticfiles widget_tweaks mtafiti formset_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Publication Form</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" action="{{ action }}" method="post">
+                        {% csrf_token %}
+                        {% for field in form.hidden_fields %}
+                            <div class="form-group">
+                                {% render_field field %}
+                            </div>
+                        {% endfor %}
+
+                        {% for field in form.visible_fields %}
+                            <div class="form-group">
+                                {% if field|fieldtype == 'CheckboxInput' %}
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <div class="checkbox">
+                                            <label>
+                                                {% render_field field %} {{ field.label }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <label id="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                                    <div class="col-sm-10">
+                                        {% if field|fieldtype == 'NumberInput' %}
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    {% render_field field class+='form-control' %}
+                                                </div>
+                                            </div>
+
+                                        {% elif field|fieldtype == 'PagesWidget' %}
+                                            {% render_field field %}
+                                        {% else %}
+                                            {% render_field field class+='form-control' %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Authors</label>
+                            <div class="col-sm-10">
+                                <fieldset id="formset" data-formset-prefix="{{ formset.prefix }}">
+                                    {{ formset.management_form }}
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>First author?</th>
+                                                <th>Corresponding author?</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-formset-body>
+                                            {% for form in formset %}
+                                                <tr data-formset-form>
+                                                    {% for field in form %}
+                                                        {% if forloop.last %}
+                                                            <td class="hidden">{% render_field field %}</td>
+                                                        {% elif field|fieldtype == 'CheckboxInput' %}
+                                                            <td>{% render_field field class+='checkbox' %}</td>
+                                                        {% else %}
+                                                            <td>{% render_field field %}</td>
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-formset-delete-button>
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            <script type="form-template" data-formset-empty-form>
+                                                {% escapescript %}
+                                                    <tr data-formset-form>
+                                                        {% for field in formset.empty_form %}
+                                                            {% if forloop.last %}
+                                                                <td class="hidden">{% render_field field %}</td>
+                                                            {% elif field|fieldtype == 'CheckboxInput' %}
+                                                                <td>{% render_field field class+='checkbox' %}</td>
+                                                            {% else %}
+                                                                <td>{% render_field field %}</td>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-formset-delete-button>
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                {% endescapescript %}
+                                            </script>
+                                        </tbody>
+                                    </table>
+                                    <button type="button" class="btn btn-primary btn-sm" data-formset-add>Add another Author?</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button type="reset" class="btn btn-white">Cancel</button>
+                                <button type="submit" class="btn btn-success">Save Publication</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script src="/static/js/jquery.formset.js"></script>
+    {{ formset.media }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#formset').formset({
+                animateForms: true
+            });
+        });
+    </script>
+{% endblock %}
+
