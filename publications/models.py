@@ -46,7 +46,7 @@ class Publication(models.Model):
         ordering = ['-year', '-id']
         verbose_name_plural = 'Publications'
 
-    title = models.CharField(_('Title'), max_length=512, unique=True)
+    title = models.CharField(_('Title'), max_length=255, unique=True)
     authors = models.ManyToManyField(Author, through='PublicationAuthor', editable=False)
     keywords = models.CharField(_('Research Area'), max_length=512)
     year = models.PositiveIntegerField(_('Year'))
