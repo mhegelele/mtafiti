@@ -1,5 +1,5 @@
 #base58==0.2.2
-dj-database-url==0.4.1
+#dj-database-url==0.4.1
 Django==1.9.7
 django-autocomplete-light==3.1.6
 django-formset-js==0.5.0
@@ -8,7 +8,7 @@ django-widget-tweaks==1.4.1
 #docopt==0.6.2
 docutils==0.12
 futures==3.0.5
-gunicorn==19.6.0
+#gunicorn==19.6.0
 hjson==1.5.4
 jmespath==0.9.0
 psycopg2==2.6.1
@@ -19,5 +19,5 @@ six==1.10.0
 #tqdm==4.4.1
 Unidecode==0.4.19
 #Werkzeug==0.11.8
-whitenoise==3.2.2
+#whitenoise==3.2.2
 wsgi-request-logger==0.4.5
