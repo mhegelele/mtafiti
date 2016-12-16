@@ -11,7 +11,7 @@ class Author(models.Model):
     first_name = models.CharField(_('First Name'), max_length=30)
     middle_name = models.CharField(_('Middle Name'), max_length=30, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=30)
-    institution = models.CharField(_('Institution'), max_length=256, blank=True)
+    institution = models.CharField(_('Institution'), max_length=128, blank=True)
     email = models.EmailField(_('Email'), blank=True)
 
     def __str__(self):
@@ -46,11 +46,11 @@ class Publication(models.Model):
         ordering = ['-year', '-id']
         verbose_name_plural = 'Publications'
 
-    title = models.CharField(_('Title'), max_length=255, unique=True)
+    title = models.CharField(_('Title'), max_length=128, unique=True)
     authors = models.ManyToManyField(Author, through='PublicationAuthor', editable=False)
-    keywords = models.CharField(_('Research Area'), max_length=512)
+    keywords = models.CharField(_('Research Area'), max_length=128)
     year = models.PositiveIntegerField(_('Year'))
-    journal = models.CharField(_('Journal'), max_length=256, blank=True)
+    journal = models.CharField(_('Journal'), max_length=128, blank=True)
     volume = models.IntegerField(_('Volume'), blank=True, null=True)
     number = models.IntegerField(blank=True, null=True, verbose_name=_('Issue'))
     pages = PagesField(max_length=32, blank=True)
